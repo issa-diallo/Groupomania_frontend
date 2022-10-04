@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Backend is available via: https://github.com/issa-diallo/Groupomania_Backend.
 
 ## Available Scripts
 
