@@ -1,0 +1,23 @@
+name: Linter
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup ReactJS
+        uses: actions/setup-node@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run the linter
+        run: yarn lint
+
+      - name: Run the format
+        run: yarn format
