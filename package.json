@@ -26,7 +26,7 @@
   "scripts": {
     "start": "react-scripts start",
     "lint": "eslint --fix src/",
-    "format": "prettier --write src/**/*.{ts,js} *.{md,yml} .github/**/*.yml",
+    "format": "prettier --write src/**/*.{tsx,js} *.{md,yml} .github/**/*.yml",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
