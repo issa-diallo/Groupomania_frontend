@@ -1,4 +1,5 @@
 import { FunctionComponent, createContext, useState } from 'react'
+import { getTokenLocalStorage } from '../utils/helpers'
 
 interface TokenContextType {
   token: string | null | undefined
@@ -18,7 +19,9 @@ const tokenContextDefault = {
 const TokenContext = createContext<TokenContextType>(tokenContextDefault)
 
 const TokenContextProvider: FunctionComponent<Props> = ({ children }) => {
-  const [token, setToken] = useState<string | null | undefined>(defaultToken)
+  const [token, setToken] = useState<string | null | undefined>(() =>
+    getTokenLocalStorage()
+  )
   return (
     <TokenContext.Provider value={{ token, setToken }}>
       {children}

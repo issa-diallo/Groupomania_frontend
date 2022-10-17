@@ -12,25 +12,30 @@ import Register from './pages/Register'
 import { TokenContextProvider } from './context/tokenContext'
 import PrivateRoute from './components/PrivateRoute'
 import PageNotFound from './pages/PageNotFound'
+import { ProfileContextProvider } from './context/profilContext'
+import ProfilePage from './pages/Profile'
 
 const App = () => {
   return (
     <BrowserRouter>
       <TokenContextProvider>
-        <Header />
-        <main>
-          <Container>
-            <Routes>
-              <Route path="*" element={<PageNotFound />} />
-              <Route element={<PrivateRoute />}>
-                <Route path="/" element={<Home />} />
-              </Route>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-            </Routes>
-          </Container>
-        </main>
-        <Footer />
+        <ProfileContextProvider>
+          <Header />
+          <main>
+            <Container>
+              <Routes>
+                <Route path="*" element={<PageNotFound />} />
+                <Route element={<PrivateRoute />}>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/profile" element={<ProfilePage />} />
+                </Route>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+              </Routes>
+            </Container>
+          </main>
+          <Footer />
+        </ProfileContextProvider>
       </TokenContextProvider>
     </BrowserRouter>
   )

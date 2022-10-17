@@ -17,6 +17,7 @@ const Header = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           {useIsLoggedIn() === true ? (
             <Nav className="ms-auto">
+              <Nav.Link href="/profile">Profile</Nav.Link>
               <Nav.Link onClick={onLogoutClick}>Deconnexion</Nav.Link>
             </Nav>
           ) : (
