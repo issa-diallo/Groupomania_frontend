@@ -1,5 +1,6 @@
 import React from 'react'
 import Container from 'react-bootstrap/Container'
+import Image from 'react-bootstrap/Image'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import { useIsLoggedIn, useLogout } from '../utils/hook'
@@ -12,7 +13,15 @@ const Header = () => {
   return (
     <Navbar bg="primary" variant="dark" expand="lg">
       <Container>
-        <Navbar.Brand href="/">Groupomania</Navbar.Brand>
+        <Navbar.Brand href="/">
+          <Image
+            width="100"
+            height="90"
+            className="d-inline-block align-top"
+            src="icon-left-font-monochrome-white.png"
+            alt="Logo groupomania"
+          />
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           {useIsLoggedIn() === true ? (

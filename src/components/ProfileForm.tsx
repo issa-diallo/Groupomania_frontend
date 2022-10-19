@@ -20,8 +20,7 @@ const ProfileForm: FunctionComponent<ProfileProps> = ({ profile }) => {
 
   // local unsaved profile state so we only hit the profile context after saving
   const [profileState, setProfileState] = useState<Profile>(profile)
-  const { profile: profileContext, setProfile: setProfileContext } =
-    useContext(ProfileContext)
+  const { setProfile: setProfileContext } = useContext(ProfileContext)
 
   useEffect(() => {
     setProfileState(profile)
