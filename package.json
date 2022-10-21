@@ -14,6 +14,7 @@
     "assert": "^2.0.0",
     "axios": "^1.1.2",
     "bootstrap": "^5.2.2",
+    "dayjs": "^1.11.6",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.7.1",

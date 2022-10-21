@@ -1,4 +1,5 @@
 import assert from 'assert'
+import dayjs from 'dayjs'
 import React, {
   FunctionComponent,
   useContext,
@@ -75,6 +76,10 @@ const ProfileForm: FunctionComponent<ProfileProps> = ({ profile }) => {
         }
         value={profileState.bio}
       />
+      <Form.Text id="passwordHelpBlock" muted>
+        Membre depuis le :{' '}
+        {dayjs(profileState.createdAt).format('DD MMM YYYY à HH:mm')}
+      </Form.Text>
       <Button
         className="my-3"
         variant="success"
