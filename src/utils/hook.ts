@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { removeTokenLocalStorage } from './helpers'
+import { removeTokenLocalStorage } from './tokenStorage'
 import { TokenContext } from '../context/tokenContext'
 
 /**

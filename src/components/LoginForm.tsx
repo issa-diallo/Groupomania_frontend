@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { login } from '../services/api'
-import { setTokenLocalStorage } from '../utils/helpers'
+import { setTokenLocalStorage } from '../utils/tokenStorage'
 import { useNavigate } from 'react-router-dom'
 import { TokenContext } from '../context/tokenContext'
 

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { LoginResponse, Profile } from '../types'
+import { LoginResponse, Post, Profile, Comment } from '../types'
 import { BACKEND_URL } from './constants'
 
 const login = async (
@@ -55,4 +55,11 @@ const uploadProfile = async (
   return response.data
 }
 
-export { login, register, updateUser, getProfile, uploadProfile }
+const getPosts = async (token: string): Promise<Post[]> => {
+  const url = BACKEND_URL + '/api/v1/post'
+  const headers = { Authorization: `Token ${token}` }
+  const response = await axios.get<Post[]>(url, { headers })
+  return response.data
+}
+
+export { login, register, updateUser, getProfile, uploadProfile, getPosts }

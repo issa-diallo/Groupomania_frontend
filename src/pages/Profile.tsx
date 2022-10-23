@@ -3,12 +3,11 @@ import { Profile } from '../types'
 import { TokenContext } from '../context/tokenContext'
 import { ProfileContext } from '../context/profilContext'
 import { getProfile, uploadProfile } from '../services/api'
-import FormContainer from '../components/FormContainer'
 import ProfileForm from '../components/ProfileForm'
-import { getTokenLocalStorage } from '../utils/helpers'
 import UploadImageProfile from '../components/UploadImageProfile'
-import { Col, Container, Image, Row } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 import assert from 'assert'
+import { getTokenLocalStorage } from '../utils/tokenStorage'
 
 const ProfilePage = () => {
   const { token, setToken } = useContext(TokenContext)

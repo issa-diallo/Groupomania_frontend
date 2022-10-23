@@ -1,5 +1,5 @@
 import { FunctionComponent, createContext, useState } from 'react'
-import { getTokenLocalStorage } from '../utils/helpers'
+import { getTokenLocalStorage } from '../utils/tokenStorage'
 
 interface TokenContextType {
   token: string | null | undefined
