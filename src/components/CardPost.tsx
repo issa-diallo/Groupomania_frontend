@@ -1,11 +1,20 @@
-import React, { FunctionComponent, useContext } from 'react'
-import { Post } from '../types'
+import React, {
+  FunctionComponent,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
+import { Comment, Post } from '../types'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import { ProfileContext } from '../context/profilContext'
 import dayjs from 'dayjs'
 import { Badge, Image, Row } from 'react-bootstrap'
 import LikeButton from './LikeButton'
+import assert from 'assert'
+import { TokenContext } from '../context/tokenContext'
+import { getComments } from '../services/api'
 
 interface cardPostProps {
   post: Post
@@ -13,6 +22,25 @@ interface cardPostProps {
 
 const CardPost: FunctionComponent<cardPostProps> = ({ post }) => {
   const { profile } = useContext(ProfileContext)
+  const { token } = useContext(TokenContext)
+
+  const [commentState, setCommentState] = useState<Comment[]>([])
+
+  // allows us to pick up comments by posts
+  const fetchComments = async (): Promise<void> => {
+    assert(token)
+    try {
+      const commentsAll = await getComments(token, post.id)
+      setCommentState(commentsAll)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  // when the component is loaded, the comments are picked up
+  const fetchCommentsCallback = useCallback(fetchComments, [token])
+  useEffect(() => {
+    void (async () => await fetchCommentsCallback())()
+  }, [fetchCommentsCallback])
 
   return (
     <Card className="mb-2" border="danger">
@@ -56,7 +84,10 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post }) => {
       </Card.Body>
       <Card.Footer>
         <Row className="justify-content-md-center">
-          <Col md={6}>comment</Col>
+          <Col md={6}>
+            <span>commentaires</span>
+            {commentState.length}
+          </Col>
           <Col md="auto">
             <LikeButton post={post} />
           </Col>

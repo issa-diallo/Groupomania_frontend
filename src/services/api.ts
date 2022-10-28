@@ -62,4 +62,22 @@ const getPosts = async (token: string): Promise<Post[]> => {
   return response.data
 }
 
-export { login, register, updateUser, getProfile, uploadProfile, getPosts }
+const getComments = async (
+  token: string,
+  postId: number
+): Promise<Comment[]> => {
+  const url = BACKEND_URL + `/api/v1/post/${postId}/comments`
+  const headers = { Authorization: `Token ${token}` }
+  const response = await axios.get<Comment[]>(url, { headers })
+  return response.data
+}
+
+export {
+  login,
+  register,
+  updateUser,
+  getProfile,
+  uploadProfile,
+  getPosts,
+  getComments,
+}
