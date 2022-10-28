@@ -15,7 +15,6 @@ const defaultProfile = {
   pseudo: '',
   email: '',
   picture: '',
-  bio: '',
   isAdmin: false,
   createdAt: '',
   updatedAt: '',

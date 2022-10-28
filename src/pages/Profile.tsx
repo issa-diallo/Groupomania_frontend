@@ -2,15 +2,19 @@ import { useContext, useEffect, useState } from 'react'
 import { Profile } from '../types'
 import { TokenContext } from '../context/tokenContext'
 import { ProfileContext } from '../context/profilContext'
-import { getProfile } from '../services/api'
+import { getProfile, uploadProfile } from '../services/api'
 import FormContainer from '../components/FormContainer'
 import ProfileForm from '../components/ProfileForm'
 import { getTokenLocalStorage } from '../utils/helpers'
+import UploadImageProfile from '../components/UploadImageProfile'
+import { Col, Container, Image, Row } from 'react-bootstrap'
+import assert from 'assert'
 
 const ProfilePage = () => {
   const { token, setToken } = useContext(TokenContext)
   const { profile, setProfile } = useContext(ProfileContext)
   const [profileState, setProfileState] = useState<Profile>(profile)
+  const [file, setFile] = useState<File>()
 
   // get token some storage
   useEffect(() => {
@@ -31,11 +35,43 @@ const ProfilePage = () => {
     fetchProfile(token)
   }, [token])
 
+  const onInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const { files } = event.target
+    if (files !== null && files !== undefined) {
+      setFile(files[0])
+    }
+  }
+
+  const onFormSubmit = async (e: React.FormEvent): Promise<void> => {
+    e.preventDefault()
+    if (!file) return
+    if (file) {
+      assert(token)
+      // interact db for update profile
+      const data = await uploadProfile(token, profileState.id, file)
+      // Update profil with useContext
+      setProfile(data)
+      // Update profil with state
+      setProfileState(data)
+    }
+  }
+
   return (
-    <FormContainer>
+    <Container>
       <h1>Profile</h1>
-      <ProfileForm profile={profileState} />
-    </FormContainer>
+      <Row>
+        <Col md={6}>
+          <UploadImageProfile
+            profile={profileState}
+            onInputChange={onInputChange}
+            onFormSubmit={onFormSubmit}
+          />
+        </Col>
+        <Col md={6}>
+          <ProfileForm profile={profileState} />
+        </Col>
+      </Row>
+    </Container>
   )
 }
 
