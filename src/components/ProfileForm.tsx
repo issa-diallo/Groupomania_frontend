@@ -37,7 +37,6 @@ const ProfileForm: FunctionComponent<ProfileProps> = ({ profile }) => {
       // interact with the backend axios
       const data = await updateUser(token, profileState)
       setProfileContext(data)
-      console.log('test')
     } catch (error) {
       console.log(error)
     }
@@ -74,12 +73,13 @@ const ProfileForm: FunctionComponent<ProfileProps> = ({ profile }) => {
         onChange={(e) =>
           setProfileState({ ...profileState, bio: e.target.value })
         }
-        value={profileState.bio}
+        value={profileState.bio || ''}
       />
       <Form.Text id="passwordHelpBlock" muted>
         Membre depuis le :{' '}
         {dayjs(profileState.createdAt).format('DD MMM YYYY à HH:mm')}
       </Form.Text>
+      <br />
       <Button
         className="my-3"
         variant="success"
