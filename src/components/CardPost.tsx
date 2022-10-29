@@ -15,6 +15,8 @@ import LikeButton from './LikeButton'
 import assert from 'assert'
 import { TokenContext } from '../context/tokenContext'
 import { getComments } from '../services/api'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCommentDots } from '@fortawesome/free-regular-svg-icons'
 
 interface cardPostProps {
   post: Post
@@ -85,7 +87,7 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post }) => {
       <Card.Footer>
         <Row className="justify-content-md-center">
           <Col md={6}>
-            <span>commentaires</span>
+            <FontAwesomeIcon icon={faCommentDots} />
             {commentState.length}
           </Col>
           <Col md="auto">

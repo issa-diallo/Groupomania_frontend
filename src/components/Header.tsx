@@ -4,6 +4,9 @@ import Image from 'react-bootstrap/Image'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import { useIsLoggedIn, useLogout } from '../utils/hook'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-regular-svg-icons'
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 const Header = () => {
   const logout = useLogout()
@@ -26,8 +29,14 @@ const Header = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           {useIsLoggedIn() === true ? (
             <Nav className="ms-auto">
-              <Nav.Link href="/profile">Profile</Nav.Link>
-              <Nav.Link onClick={onLogoutClick}>Deconnexion</Nav.Link>
+              <Nav.Link href="/profile">
+                <FontAwesomeIcon icon={faUser} />
+                Profile
+              </Nav.Link>
+              <Nav.Link onClick={onLogoutClick}>
+                <FontAwesomeIcon icon={faRightFromBracket} />
+                Deconnexion
+              </Nav.Link>
             </Nav>
           ) : (
             <Nav className="ms-auto">
