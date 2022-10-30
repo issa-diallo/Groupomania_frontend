@@ -38,6 +38,16 @@ const getProfile = async (token: string): Promise<Profile> => {
   return response.data
 }
 
+const getUserCreatePost = async (
+  token: string,
+  postUserId: number
+): Promise<Profile> => {
+  const url = BACKEND_URL + `/api/v1/users/${postUserId}`
+  const headers = { Authorization: `Token ${token}` }
+  const response = await axios.get<Profile>(url, { headers })
+  return response.data
+}
+
 const uploadProfile = async (
   token: string,
   id: number,
@@ -80,4 +90,5 @@ export {
   uploadProfile,
   getPosts,
   getComments,
+  getUserCreatePost,
 }

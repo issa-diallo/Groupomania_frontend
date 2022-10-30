@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { Comment, Post } from '../types'
+import { Comment, Post, Profile } from '../types'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import { ProfileContext } from '../context/profilContext'
@@ -14,7 +14,7 @@ import { Badge, Image, Row } from 'react-bootstrap'
 import LikeButton from './LikeButton'
 import assert from 'assert'
 import { TokenContext } from '../context/tokenContext'
-import { getComments } from '../services/api'
+import { getComments, getUserCreatePost } from '../services/api'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons'
 
@@ -25,8 +25,23 @@ interface cardPostProps {
 const CardPost: FunctionComponent<cardPostProps> = ({ post }) => {
   const { profile } = useContext(ProfileContext)
   const { token } = useContext(TokenContext)
-
+  const [userState, setUserState] = useState<Profile>()
   const [commentState, setCommentState] = useState<Comment[]>([])
+
+  const fetchUser = async (): Promise<void> => {
+    assert(token)
+    try {
+      const user = await getUserCreatePost(token, post.user_id)
+      setUserState(user)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const fetchUserCallback = useCallback(fetchUser, [token])
+  useEffect(() => {
+    void (async () => await fetchUserCallback())()
+  }, [fetchUserCallback])
 
   // allows us to pick up comments by posts
   const fetchComments = async (): Promise<void> => {
@@ -56,7 +71,7 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post }) => {
             className="mx-3"
           />
           <Badge bg="secondary" text="dark">
-            @{profile.pseudo}
+            @{userState?.pseudo}
           </Badge>
         </Col>
         <Col md={{ offset: 8 }}>
