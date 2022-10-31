@@ -102,7 +102,7 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post }) => {
       <Card.Footer>
         <Row className="justify-content-md-center">
           <Col md={6}>
-            <FontAwesomeIcon icon={faCommentDots} />
+            <FontAwesomeIcon icon={faCommentDots} cursor="pointer" />
             {commentState.length}
           </Col>
           <Col md="auto">

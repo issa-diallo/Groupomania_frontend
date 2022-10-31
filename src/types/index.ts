@@ -32,4 +32,30 @@ interface Comment {
   updatedAt: string
 }
 
-export type { Profile, LoginResponse, Post, Comment }
+interface Like {
+  id: number
+  user_id: number
+  post_id: number
+  createdAt: string
+  updatedAt: string
+}
+
+interface LikeResponse {
+  count: number
+  likes: Like[]
+}
+
+interface postLikeResponse {
+  count: number
+  message: string
+}
+
+export type {
+  Profile,
+  LoginResponse,
+  Post,
+  Comment,
+  Like,
+  LikeResponse,
+  postLikeResponse,
+}

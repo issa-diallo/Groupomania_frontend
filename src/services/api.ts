@@ -1,5 +1,12 @@
 import axios from 'axios'
-import { LoginResponse, Post, Profile, Comment } from '../types'
+import {
+  LoginResponse,
+  Post,
+  Profile,
+  Comment,
+  LikeResponse,
+  postLikeResponse,
+} from '../types'
 import { BACKEND_URL } from './constants'
 
 const login = async (
@@ -82,6 +89,46 @@ const getComments = async (
   return response.data
 }
 
+const getLikes = async (
+  token: string,
+  postId: number
+): Promise<LikeResponse> => {
+  const url = BACKEND_URL + `/api/v1/post/like/${postId}`
+  const headers = { Authorization: `Token ${token}` }
+  const response = await axios.get<LikeResponse>(url, {
+    headers,
+  })
+  return response.data
+}
+
+const likePost = async (
+  token: string,
+  postId: number,
+  profileId: number
+): Promise<postLikeResponse> => {
+  const url = BACKEND_URL + `/api/v1/post/like/${postId}`
+  const data = { user_id: profileId }
+  const headers = { Authorization: `Token ${token}` }
+  const response = await axios.post<postLikeResponse>(url, data, {
+    headers,
+  })
+  return response.data
+}
+
+const likeDelete = async (
+  token: string,
+  postId: number,
+  profileId: number
+): Promise<postLikeResponse> => {
+  const url = BACKEND_URL + `/api/v1/post/unlike/${postId}`
+  const data = { user_id: profileId }
+  const headers = { Authorization: `Token ${token}` }
+  const response = await axios.post<postLikeResponse>(url, data, {
+    headers,
+  })
+  return response.data
+}
+
 export {
   login,
   register,
@@ -91,4 +138,7 @@ export {
   getPosts,
   getComments,
   getUserCreatePost,
+  getLikes,
+  likePost,
+  likeDelete,
 }
