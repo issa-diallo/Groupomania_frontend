@@ -13,6 +13,7 @@ import { getPosts, getProfile } from '../services/api'
 import { ProfileContext } from '../context/profilContext'
 import { getTokenLocalStorage } from '../utils/tokenStorage'
 import { Post } from '../types'
+import FormContainer from '../components/FormContainer'
 
 const Home: FunctionComponent = () => {
   const { token, setToken } = useContext(TokenContext)
@@ -53,11 +54,11 @@ const Home: FunctionComponent = () => {
   }, [fetchPostsCallback])
 
   return (
-    <Container>
+    <FormContainer>
       {posts.map((post) => (
         <CardPost key={post.id} post={post} />
       ))}
-    </Container>
+    </FormContainer>
   )
 }
 
