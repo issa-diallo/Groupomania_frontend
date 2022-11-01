@@ -63,13 +63,23 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post }) => {
     <Card className="mb-2" border="danger">
       <Card.Header>
         <Col md={4}>
-          <Image
-            src={profile.picture}
-            rounded
-            height={30}
-            width={30}
-            className="mx-3"
-          />
+          {userState?.picture ? (
+            <Image
+              src={userState?.picture}
+              rounded
+              height={30}
+              width={30}
+              className="mx-3"
+            />
+          ) : (
+            <Image
+              src={process.env.PUBLIC_URL + 'userDefault.png'}
+              rounded
+              height={30}
+              width={30}
+              className="mx-3"
+            />
+          )}
           <Badge bg="secondary" text="dark">
             @{userState?.pseudo}
           </Badge>
@@ -83,7 +93,14 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post }) => {
       <Card.Body>
         <Card.Text>{post.message}</Card.Text>
         <Card.Text>
-          {post.picture && <Image src={post.picture} alt="card-message" />}
+          {post.picture && (
+            <Image
+              src={post.picture}
+              alt="card-message"
+              width="100%"
+              height="100%"
+            />
+          )}
         </Card.Text>
         <Card.Text>
           {post.video && (
@@ -91,7 +108,7 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post }) => {
               width="560"
               height="315"
               src={post.video}
-              title={profile.pseudo}
+              title={userState?.pseudo}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen

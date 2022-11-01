@@ -17,9 +17,17 @@ const UploadImageProfile: FunctionComponent<UploadImageProps> = ({
   return (
     <Form onSubmit={onFormSubmit}>
       <br />
-      {profile.picture && (
+      {profile.picture ? (
         <Image
           src={profile.picture}
+          roundedCircle
+          height={100}
+          width={100}
+          className="my-3"
+        />
+      ) : (
+        <Image
+          src={process.env.PUBLIC_URL + 'userDefault.png'}
           roundedCircle
           height={100}
           width={100}
