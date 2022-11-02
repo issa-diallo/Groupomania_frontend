@@ -45,7 +45,7 @@ const getProfile = async (token: string): Promise<Profile> => {
   return response.data
 }
 
-const getUserCreatePost = async (
+const getUserToCreatePost = async (
   token: string,
   postUserId: number
 ): Promise<Profile> => {
@@ -129,6 +129,18 @@ const likeDelete = async (
   return response.data
 }
 
+const updatePost = async (
+  token: string,
+  post: Post,
+  message: string
+): Promise<Post> => {
+  const url = BACKEND_URL + `/api/v1/post/${post.id}`
+  const headers = { Authorization: `Token ${token}` }
+  const data = { user_id: post.user_id, message: message }
+  const response = await axios.put<Post>(url, data, { headers })
+  return response.data
+}
+
 export {
   login,
   register,
@@ -137,8 +149,9 @@ export {
   uploadProfile,
   getPosts,
   getComments,
-  getUserCreatePost,
+  getUserToCreatePost,
   getLikes,
   likePost,
   likeDelete,
+  updatePost,
 }

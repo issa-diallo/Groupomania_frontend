@@ -6,10 +6,9 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import Container from 'react-bootstrap/Container'
 import CardPost from '../components/CardPost'
 import { TokenContext } from '../context/tokenContext'
-import { getPosts, getProfile } from '../services/api'
+import { getPosts, getProfile, updatePost } from '../services/api'
 import { ProfileContext } from '../context/profilContext'
 import { getTokenLocalStorage } from '../utils/tokenStorage'
 import { Post } from '../types'
@@ -32,7 +31,6 @@ const Home: FunctionComponent = () => {
       const profile = await getProfile(token)
       // Update profil with useContext
       setProfileContext(profile)
-      return profile
     }
     fetchProfile(token)
   }, [token])
@@ -53,10 +51,15 @@ const Home: FunctionComponent = () => {
     void (async () => await fetchPostsCallback())()
   }, [fetchPostsCallback])
 
+  const onUpdate = (post: Post) => async (textUpdate: string) => {
+    assert(token)
+    await updatePost(token, post, textUpdate)
+  }
+
   return (
     <FormContainer>
       {posts.map((post) => (
-        <CardPost key={post.id} post={post} />
+        <CardPost key={post.id} post={post} onUpdate={onUpdate(post)} />
       ))}
     </FormContainer>
   )

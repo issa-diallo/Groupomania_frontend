@@ -10,28 +10,47 @@ import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import { ProfileContext } from '../context/profilContext'
 import dayjs from 'dayjs'
-import { Badge, Image, Row } from 'react-bootstrap'
+import { Badge, Button, Form, Image, Row } from 'react-bootstrap'
 import LikeButton from './LikeButton'
 import assert from 'assert'
 import { TokenContext } from '../context/tokenContext'
-import { getComments, getUserCreatePost } from '../services/api'
+import { getComments, getUserToCreatePost } from '../services/api'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons'
+import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 
 interface cardPostProps {
   post: Post
+  onUpdate: (newMessage: string) => void
 }
 
-const CardPost: FunctionComponent<cardPostProps> = ({ post }) => {
+const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
   const { profile } = useContext(ProfileContext)
   const { token } = useContext(TokenContext)
   const [userState, setUserState] = useState<Profile>()
   const [commentState, setCommentState] = useState<Comment[]>([])
+  const [isUpdated, setIsUpdaded] = useState(false)
+  const [textUpdate, setTextUpdate] = useState<string>()
 
+  useEffect(() => {
+    setTextUpdate(post.message)
+  }, [post])
+
+  const onUpdatePost = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (textUpdate) {
+      assert(token)
+      onUpdate(textUpdate)
+      setTextUpdate(textUpdate)
+    }
+    setIsUpdaded(false)
+  }
+
+  // Foreach post get user
   const fetchUser = async (): Promise<void> => {
     assert(token)
     try {
-      const user = await getUserCreatePost(token, post.user_id)
+      const user = await getUserToCreatePost(token, post.user_id)
       setUserState(user)
     } catch (error) {
       console.error(error)
@@ -86,12 +105,37 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post }) => {
         </Col>
         <Col md={{ offset: 8 }}>
           <Badge bg="info">
-            posté le {dayjs(post.createdAt).format('DD MMM YYYY à HH:mm')}
+            {post.createdAt === post.updatedAt &&
+              dayjs(post.createdAt).format('DD MMM YYYY à HH:mm')}
+            {post.createdAt !== post.updatedAt &&
+              dayjs(post.updatedAt).format('DD MMM YYYY à HH:mm')}
           </Badge>
         </Col>
       </Card.Header>
       <Card.Body>
-        <Card.Text>{post.message}</Card.Text>
+        {isUpdated === false && <Card.Text>{textUpdate}</Card.Text>}
+        {isUpdated === true && (
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Control
+                as="textarea"
+                defaultValue={textUpdate}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setTextUpdate(e.target.value)
+                }
+                rows={3}
+              />
+            </Form.Group>
+            <Button
+              className="my-1"
+              variant="info"
+              type="submit"
+              onClick={onUpdatePost}
+            >
+              Valider modification
+            </Button>
+          </Form>
+        )}
         <Card.Text>
           {post.picture && (
             <Image
@@ -103,7 +147,7 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post }) => {
           )}
         </Card.Text>
         <Card.Text>
-          {post.video && (
+          {post?.video && (
             <iframe
               width="560"
               height="315"
@@ -115,6 +159,13 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post }) => {
             ></iframe>
           )}
         </Card.Text>
+        {profile.id === post.user_id && (
+          <FontAwesomeIcon
+            icon={faPenToSquare}
+            cursor="pointer"
+            onClick={() => setIsUpdaded(!isUpdated)}
+          />
+        )}
       </Card.Body>
       <Card.Footer>
         <Row className="justify-content-md-center">
