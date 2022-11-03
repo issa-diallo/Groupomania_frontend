@@ -141,6 +141,14 @@ const updatePost = async (
   return response.data
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
+const deletePost = async (token: string, postId: number) => {
+  const url = BACKEND_URL + `/api/v1/post/${postId}`
+  const headers = { Authorization: `Token ${token}` }
+  const response = await axios.delete(url, { headers })
+  response.data
+}
+
 export {
   login,
   register,
@@ -154,4 +162,5 @@ export {
   likePost,
   likeDelete,
   updatePost,
+  deletePost,
 }

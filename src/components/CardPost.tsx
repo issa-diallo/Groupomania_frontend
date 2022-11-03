@@ -18,6 +18,7 @@ import { getComments, getUserToCreatePost } from '../services/api'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
+import DeleteButtonPost from './DeleteButtonPost'
 
 interface cardPostProps {
   post: Post
@@ -160,16 +161,25 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
           )}
         </Card.Text>
         {profile.id === post.user_id && (
-          <FontAwesomeIcon
-            icon={faPenToSquare}
-            cursor="pointer"
-            onClick={() => setIsUpdaded(!isUpdated)}
-          />
+          <Card.Text>
+            <Row className="justify-content-md-center">
+              <Col md={4}>
+                <FontAwesomeIcon
+                  icon={faPenToSquare}
+                  cursor="pointer"
+                  onClick={() => setIsUpdaded(!isUpdated)}
+                />
+              </Col>
+              <Col md="auto">
+                <DeleteButtonPost post={post} />
+              </Col>
+            </Row>
+          </Card.Text>
         )}
       </Card.Body>
       <Card.Footer>
         <Row className="justify-content-md-center">
-          <Col md={6}>
+          <Col md={10}>
             <FontAwesomeIcon icon={faCommentDots} cursor="pointer" />
             {commentState.length}
           </Col>
