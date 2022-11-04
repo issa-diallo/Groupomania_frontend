@@ -8,22 +8,15 @@ import React, {
 } from 'react'
 import CardPost from '../components/CardPost'
 import { TokenContext } from '../context/tokenContext'
-import { getPosts, getProfile, updatePost } from '../services/api'
+import { getPosts, getProfile } from '../services/api'
 import { ProfileContext } from '../context/profilContext'
 import { getTokenLocalStorage } from '../utils/tokenStorage'
 import { Post } from '../types'
-import FormContainer from '../components/FormContainer'
+import NewPostForm from '../components/NewPostForm'
+import { Container } from 'react-bootstrap'
 
-const Home: FunctionComponent = () => {
-  const { token, setToken } = useContext(TokenContext)
+const useUpdateProfile = (token: string | null | undefined) => {
   const { setProfile: setProfileContext } = useContext(ProfileContext)
-  const [posts, setPosts] = useState<Post[]>([])
-
-  // Manage current profile
-  useEffect(() => {
-    setToken(getTokenLocalStorage())
-  }, [setToken])
-
   useEffect(() => {
     if (!token) return
     const fetchProfile = async (token: string) => {
@@ -34,9 +27,23 @@ const Home: FunctionComponent = () => {
     }
     fetchProfile(token)
   }, [token])
+}
 
-  // allows us to pick up posts
-  const fetchPosts = async (): Promise<void> => {
+const useToken = () => {
+  const { token, setToken } = useContext(TokenContext)
+  // Manage current profile
+  useEffect(() => {
+    setToken(getTokenLocalStorage())
+  }, [setToken])
+
+  useUpdateProfile(token)
+
+  return token
+}
+
+const useFetchPost = (token: string | null | undefined) => {
+  const [posts, setPosts] = useState<Post[]>([])
+  const fetchPosts = useCallback(async (): Promise<void> => {
     assert(token)
     try {
       const postAll = await getPosts(token)
@@ -44,24 +51,26 @@ const Home: FunctionComponent = () => {
     } catch (error) {
       console.error(error)
     }
-  }
-  // when the component is loaded, the posts are picked up
-  const fetchPostsCallback = useCallback(fetchPosts, [token])
-  useEffect(() => {
-    void (async () => await fetchPostsCallback())()
-  }, [fetchPostsCallback])
+  }, [token])
 
-  const onUpdate = (post: Post) => async (textUpdate: string) => {
-    assert(token)
-    await updatePost(token, post, textUpdate)
-  }
+  useEffect(() => {
+    fetchPosts()
+  }, [fetchPosts])
+
+  return [posts, fetchPosts] as const
+}
+
+const Home: FunctionComponent = () => {
+  const token = useToken()
+  const [posts, fetchPosts] = useFetchPost(token)
 
   return (
-    <FormContainer>
+    <Container>
+      <NewPostForm onCreate={fetchPosts} />
       {posts.map((post) => (
-        <CardPost key={post.id} post={post} onUpdate={onUpdate(post)} />
+        <CardPost key={post.id} post={post} onUpdate={fetchPosts} />
       ))}
-    </FormContainer>
+    </Container>
   )
 }
 

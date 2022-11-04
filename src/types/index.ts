@@ -18,9 +18,12 @@ interface Post {
   user_id: number
   message: string
   picture: string
-  video: string
   createdAt: string
   updatedAt: string
+}
+interface postRequest {
+  user_id: number
+  message: string
 }
 
 interface Comment {
@@ -58,4 +61,5 @@ export type {
   Like,
   LikeResponse,
   postLikeResponse,
+  postRequest,
 }

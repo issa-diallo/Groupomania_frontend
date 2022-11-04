@@ -14,7 +14,11 @@ import { Badge, Button, Form, Image, Row } from 'react-bootstrap'
 import LikeButton from './LikeButton'
 import assert from 'assert'
 import { TokenContext } from '../context/tokenContext'
-import { getComments, getUserToCreatePost } from '../services/api'
+import {
+  getComments,
+  getUserToCreatePost,
+  updatePost as update,
+} from '../services/api'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
@@ -22,7 +26,7 @@ import DeleteButtonPost from './DeleteButtonPost'
 
 interface cardPostProps {
   post: Post
-  onUpdate: (newMessage: string) => void
+  onUpdate: () => void
 }
 
 const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
@@ -31,18 +35,22 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
   const [userState, setUserState] = useState<Profile>()
   const [commentState, setCommentState] = useState<Comment[]>([])
   const [isUpdated, setIsUpdaded] = useState(false)
-  const [textUpdate, setTextUpdate] = useState<string>()
+  const [textUpdate, setTextUpdate] = useState<string>('')
 
   useEffect(() => {
     setTextUpdate(post.message)
   }, [post])
 
+  const onTextUpdateChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setTextUpdate(e.target.value)
+  }
+
   const onUpdatePost = async (e: React.FormEvent) => {
     e.preventDefault()
     if (textUpdate) {
       assert(token)
-      onUpdate(textUpdate)
-      setTextUpdate(textUpdate)
+      await update(token, post, textUpdate)
+      onUpdate()
     }
     setIsUpdaded(false)
   }
@@ -121,9 +129,7 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
               <Form.Control
                 as="textarea"
                 defaultValue={textUpdate}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setTextUpdate(e.target.value)
-                }
+                onChange={onTextUpdateChange}
                 rows={3}
               />
             </Form.Group>
@@ -142,22 +148,9 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
             <Image
               src={post.picture}
               alt="card-message"
-              width="100%"
-              height="100%"
-            />
-          )}
-        </Card.Text>
-        <Card.Text>
-          {post?.video && (
-            <iframe
               width="560"
               height="315"
-              src={post.video}
-              title={userState?.pseudo}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
+            />
           )}
         </Card.Text>
         {profile.id === post.user_id && (
@@ -171,7 +164,7 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
                 />
               </Col>
               <Col md="auto">
-                <DeleteButtonPost post={post} />
+                <DeleteButtonPost post={post} onDelete={onUpdate} />
               </Col>
             </Row>
           </Card.Text>

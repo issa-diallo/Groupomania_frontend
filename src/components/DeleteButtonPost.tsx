@@ -8,16 +8,20 @@ import { Post } from '../types'
 
 interface deletePostProps {
   post: Post
+  onDelete: () => void
 }
 
-const DeleteButtonPost: FunctionComponent<deletePostProps> = ({ post }) => {
+const DeleteButtonPost: FunctionComponent<deletePostProps> = ({
+  post,
+  onDelete,
+}) => {
   const { token } = useContext(TokenContext)
 
   const deleteQuote = async () => {
     if (window.confirm('Voulez-vous supprimer ce post ?')) {
       assert(token)
       await deletePost(token, post.id)
-      window.location.reload()
+      onDelete()
     }
   }
 

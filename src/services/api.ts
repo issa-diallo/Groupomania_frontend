@@ -6,6 +6,7 @@ import {
   Comment,
   LikeResponse,
   postLikeResponse,
+  postRequest,
 } from '../types'
 import { BACKEND_URL } from './constants'
 
@@ -149,6 +150,25 @@ const deletePost = async (token: string, postId: number) => {
   response.data
 }
 
+const createPost = async (
+  token: string,
+  post: postRequest,
+  file?: File
+): Promise<Post> => {
+  const url = BACKEND_URL + `/api/v1/post/`
+  const headers = {
+    Authorization: `Token ${token}`,
+    'Content-Type': 'multipart/form-data',
+  }
+  const data = {
+    user_id: post.user_id,
+    message: post.message,
+    file,
+  }
+  const response = await axios.post<Post>(url, data, { headers })
+  return response.data
+}
+
 export {
   login,
   register,
@@ -163,4 +183,5 @@ export {
   likeDelete,
   updatePost,
   deletePost,
+  createPost,
 }
