@@ -144,14 +144,17 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
           </Form>
         )}
         <Card.Text>
-          {post.picture && (
-            <Image
-              src={post.picture}
-              alt="card-message"
-              width="560"
-              height="315"
-            />
-          )}
+          <Col className="mx-auto">
+            {post.picture && (
+              <Image
+                src={post.picture}
+                alt="card-message"
+                // width="560"
+                // height="315"
+                fluid
+              />
+            )}
+          </Col>
         </Card.Text>
         {profile.id === post.user_id && (
           <Card.Text>
@@ -172,10 +175,10 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
       </Card.Body>
       <Card.Footer>
         <Row className="justify-content-md-center">
-          <Col md={10}>
+          {/* <Col md={10}>
             <FontAwesomeIcon icon={faCommentDots} cursor="pointer" />
             {commentState.length}
-          </Col>
+          </Col> */}
           <Col md="auto">
             <LikeButton post={post} />
           </Col>
