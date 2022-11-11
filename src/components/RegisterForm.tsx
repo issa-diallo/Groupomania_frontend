@@ -3,11 +3,15 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { register } from '../services/api'
 import { useNavigate } from 'react-router-dom'
+import { AxiosError } from 'axios'
+import Alert from 'react-bootstrap/Alert'
+import { ErrorResponse } from '../types'
 
 const RegisterForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [pseudo, setPseudo] = useState('')
+  const [error, setError] = useState('')
 
   const navigate = useNavigate()
 
@@ -20,13 +24,21 @@ const RegisterForm = () => {
   const onPseudoChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
     setPseudo(e.target.value)
 
+  const isAxiosError = (error: unknown): error is AxiosError => {
+    return Boolean(error && (error as AxiosError).isAxiosError)
+  }
+
   const onLogin = async (): Promise<void> => {
     try {
       // interact with the backend axios post
       await register(pseudo, email, password)
       navigate('/login')
-    } catch (error) {
-      console.error(error)
+    } catch (err: unknown) {
+      if (isAxiosError(err) && err.response) {
+        const axiosError = err as AxiosError<ErrorResponse>
+        const { response } = axiosError
+        setError(response?.data.message || '')
+      }
     }
   }
 
@@ -34,6 +46,7 @@ const RegisterForm = () => {
 
   return (
     <Form onSubmit={onFormSubmit}>
+      {error && <Alert className="mb-4">{error}</Alert>}
       <Form.Group className="my-3" controlId="formGroupPseudo">
         <Form.Label>Pseudo</Form.Label>
         <Form.Control

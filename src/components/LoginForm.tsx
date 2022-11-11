@@ -5,9 +5,13 @@ import { login } from '../services/api'
 import { setTokenLocalStorage } from '../utils/tokenStorage'
 import { useNavigate } from 'react-router-dom'
 import { TokenContext } from '../context/tokenContext'
+import { AxiosError } from 'axios'
+import Alert from 'react-bootstrap/Alert'
+import { ErrorResponse } from '../types'
 
 const LoginForm = () => {
   const [email, setEmail] = useState('')
+  const [error, setError] = useState('')
   const [password, setPassword] = useState('')
 
   const { setToken } = useContext(TokenContext)
@@ -19,6 +23,11 @@ const LoginForm = () => {
   const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
     setPassword(e.target.value)
 
+  // Type guard
+  const isAxiosError = (error: unknown): error is AxiosError => {
+    return Boolean(error && (error as AxiosError).isAxiosError)
+  }
+
   const onLogin = async (): Promise<void> => {
     try {
       // interact with the backend axios post
@@ -27,8 +36,13 @@ const LoginForm = () => {
       setTokenLocalStorage(token)
       setToken(token)
       navigate('/')
-    } catch (error) {
-      console.error(error)
+    } catch (err: unknown) {
+      console.error(err)
+      if (isAxiosError(err) && err.response) {
+        const axiosError = err as AxiosError<ErrorResponse>
+        const { response } = axiosError
+        setError(response?.data.message || '')
+      }
     }
   }
 
@@ -36,6 +50,7 @@ const LoginForm = () => {
 
   return (
     <Form onSubmit={onFormSubmit}>
+      {error && <Alert className="mb-4">{error}</Alert>}
       <Form.Group className="my-3" controlId="formGroupEmail">
         <Form.Label>Adresse mail</Form.Label>
         <Form.Control

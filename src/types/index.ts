@@ -53,6 +53,10 @@ interface postLikeResponse {
   message: string
 }
 
+interface ErrorResponse {
+  message: string | undefined
+}
+
 export type {
   Profile,
   LoginResponse,
@@ -62,4 +66,5 @@ export type {
   LikeResponse,
   postLikeResponse,
   postRequest,
+  ErrorResponse,
 }
