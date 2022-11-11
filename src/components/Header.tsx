@@ -33,7 +33,7 @@ const Header = () => {
             <Nav className="ms-auto">
               <Nav.Link href="/profile">
                 <FontAwesomeIcon icon={faUser} />
-                Profile
+                Profil
               </Nav.Link>
               <Nav.Link onClick={onLogoutClick}>
                 <FontAwesomeIcon icon={faRightFromBracket} />
