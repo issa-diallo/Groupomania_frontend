@@ -51,10 +51,10 @@ const ChildPostForm: FunctionComponent<childPostProps> = ({
           {postPicture && (
             <Image
               src={postPicture}
-              rounded
-              width="560"
-              height="315"
-              className="mx-3"
+              alt="card-message"
+              className="mx-auto d-block"
+              height="560"
+              width="80%"
             />
           )}
         </Card.Text>

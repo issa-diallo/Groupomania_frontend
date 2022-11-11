@@ -100,12 +100,12 @@ const NewPostForm: FunctionComponent<propsNew> = ({ onCreate }) => {
         </Card.Body>
         <Form>
           <Row className="align-items-center">
-            <Col xs="auto">
+            <Col xs="8">
               <Form.Label>
                 <FontAwesomeIcon
                   icon={faImage}
                   cursor="pointer"
-                  className="p-2"
+                  className="mx-4"
                 />
                 <Form.Control
                   type="file"
@@ -117,10 +117,10 @@ const NewPostForm: FunctionComponent<propsNew> = ({ onCreate }) => {
                 />
               </Form.Label>
             </Col>
-            <Col xs="auto">
+            <Col xs="4">
               {message || postPicture ? (
                 <Button
-                  className="my-3"
+                  className="m-2"
                   variant="outline-primary"
                   type="submit"
                   onClick={cancelPost}
@@ -129,7 +129,7 @@ const NewPostForm: FunctionComponent<propsNew> = ({ onCreate }) => {
                 </Button>
               ) : null}
               <Button
-                className="my-3"
+                className="m-3"
                 variant="outline-success"
                 type="submit"
                 onClick={handlePost}
