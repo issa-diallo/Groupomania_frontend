@@ -9,6 +9,7 @@ import ChildPostForm from './ChildPostForm'
 import assert from 'assert'
 import { TokenContext } from '../context/tokenContext'
 import { createPost } from '../services/api'
+import { toast } from 'react-toastify'
 
 interface propsNew {
   onCreate: () => void
@@ -33,8 +34,9 @@ const NewPostForm: FunctionComponent<propsNew> = ({ onCreate }) => {
       file ? await createPost(token, data, file) : await createPost(token, data)
       cancelPost()
       onCreate()
+      toast.success('Votre post a bien été ajouté !')
     } else {
-      alert('Entrer un message')
+      toast.error('Une erreur est survenue !')
     }
   }
 

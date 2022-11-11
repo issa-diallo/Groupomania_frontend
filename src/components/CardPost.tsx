@@ -22,6 +22,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import DeleteButtonPost from './DeleteButtonPost'
+import { toast } from 'react-toastify'
 
 interface cardPostProps {
   post: Post
@@ -49,6 +50,7 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
       assert(token)
       await update(token, post, textUpdate)
       onUpdate()
+      toast.info('Votre post a bien été modifié !')
     }
     setIsUpdaded(false)
   }

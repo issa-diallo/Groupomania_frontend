@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { removeTokenLocalStorage } from './tokenStorage'
 import { TokenContext } from '../context/tokenContext'
+import { toast } from 'react-toastify'
 
 /**
  * Returns:
@@ -24,6 +25,7 @@ const useLogout = (): (() => void) => {
   return () => {
     removeTokenLocalStorage()
     setToken(null)
+    toast.info('Vous êtes désormais déconnecté 😀')
     navigate('/login')
   }
 }

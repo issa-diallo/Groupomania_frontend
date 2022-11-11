@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { AxiosError } from 'axios'
 import Alert from 'react-bootstrap/Alert'
 import { ErrorResponse } from '../types'
+import { toast } from 'react-toastify'
 
 const RegisterForm = () => {
   const [email, setEmail] = useState('')
@@ -32,6 +33,7 @@ const RegisterForm = () => {
     try {
       // interact with the backend axios post
       await register(pseudo, email, password)
+      toast.success('Vous êtes désormais inscrit, vous pouvez vous connecter !')
       navigate('/login')
     } catch (err: unknown) {
       if (isAxiosError(err) && err.response) {
@@ -39,6 +41,7 @@ const RegisterForm = () => {
         const { response } = axiosError
         setError(response?.data.message || '')
       }
+      toast.error('Des erreurs dans votre formulaire')
     }
   }
 

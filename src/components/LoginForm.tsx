@@ -8,6 +8,7 @@ import { TokenContext } from '../context/tokenContext'
 import { AxiosError } from 'axios'
 import Alert from 'react-bootstrap/Alert'
 import { ErrorResponse } from '../types'
+import { toast } from 'react-toastify'
 
 const LoginForm = () => {
   const [email, setEmail] = useState('')
@@ -35,6 +36,7 @@ const LoginForm = () => {
       const { token } = response
       setTokenLocalStorage(token)
       setToken(token)
+      toast.success('Vous êtes désormais connecté 😀')
       navigate('/')
     } catch (err: unknown) {
       console.error(err)
@@ -43,6 +45,7 @@ const LoginForm = () => {
         const { response } = axiosError
         setError(response?.data.message || '')
       }
+      toast.error(' Une erreur est survenue !')
     }
   }
 

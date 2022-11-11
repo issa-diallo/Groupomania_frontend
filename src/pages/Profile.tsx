@@ -8,6 +8,7 @@ import UploadImageProfile from '../components/UploadImageProfile'
 import { Col, Container, Row } from 'react-bootstrap'
 import assert from 'assert'
 import { getTokenLocalStorage } from '../utils/tokenStorage'
+import { toast } from 'react-toastify'
 
 const ProfilePage = () => {
   const { token, setToken } = useContext(TokenContext)
@@ -53,6 +54,7 @@ const ProfilePage = () => {
       // Update profil with state
       setProfileState(data)
     }
+    toast.success('La photo a bien été modifié !')
   }
 
   return (

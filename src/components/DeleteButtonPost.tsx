@@ -5,6 +5,7 @@ import { deletePost } from '../services/api'
 import assert from 'assert'
 import { TokenContext } from '../context/tokenContext'
 import { Post } from '../types'
+import { toast } from 'react-toastify'
 
 interface deletePostProps {
   post: Post
@@ -22,6 +23,7 @@ const DeleteButtonPost: FunctionComponent<deletePostProps> = ({
       assert(token)
       await deletePost(token, post.id)
       onDelete()
+      toast.success('Votre post a bien été supprimé !')
     }
   }
 

@@ -7,6 +7,7 @@ import React, {
   useState,
 } from 'react'
 import { Button, Form } from 'react-bootstrap'
+import { toast } from 'react-toastify'
 import { ProfileContext } from '../context/profilContext'
 import { TokenContext } from '../context/tokenContext'
 import { updateUser } from '../services/api'
@@ -37,6 +38,7 @@ const ProfileForm: FunctionComponent<ProfileProps> = ({ profile }) => {
       // interact with the backend axios
       const data = await updateUser(token, profileState)
       setProfileContext(data)
+      toast.success('Vos modifications ont bien été enregistré')
     } catch (error) {
       console.log(error)
     }
