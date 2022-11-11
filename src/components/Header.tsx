@@ -21,7 +21,7 @@ const Header = () => {
             width="100"
             height="90"
             className="d-inline-block align-top"
-            src="icon-left-font-monochrome-white.png"
+            src="/icon-left-font-monochrome-white.png"
             alt="Logo groupomania"
           />
         </Navbar.Brand>
