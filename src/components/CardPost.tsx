@@ -20,7 +20,6 @@ import {
   updatePost as update,
 } from '../services/api'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCommentDots } from '@fortawesome/free-regular-svg-icons'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import DeleteButtonPost from './DeleteButtonPost'
 
@@ -33,7 +32,6 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
   const { profile } = useContext(ProfileContext)
   const { token } = useContext(TokenContext)
   const [userState, setUserState] = useState<Profile>()
-  const [commentState, setCommentState] = useState<Comment[]>([])
   const [isUpdated, setIsUpdaded] = useState(false)
   const [textUpdate, setTextUpdate] = useState<string>('')
 
@@ -70,22 +68,6 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
   useEffect(() => {
     void (async () => await fetchUserCallback())()
   }, [fetchUserCallback])
-
-  // allows us to pick up comments by posts
-  const fetchComments = async (): Promise<void> => {
-    assert(token)
-    try {
-      const commentsAll = await getComments(token, post.id)
-      setCommentState(commentsAll)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-  // when the component is loaded, the comments are picked up
-  const fetchCommentsCallback = useCallback(fetchComments, [token])
-  useEffect(() => {
-    void (async () => await fetchCommentsCallback())()
-  }, [fetchCommentsCallback])
 
   return (
     <Card className="mb-2" border="danger">
@@ -144,14 +126,14 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
           </Form>
         )}
         <Card.Text>
-          <Col className="mx-auto">
+          <Col>
             {post.picture && (
               <Image
                 src={post.picture}
                 alt="card-message"
-                // width="560"
-                // height="315"
-                fluid
+                className="mx-auto d-block"
+                height="560"
+                width="80%"
               />
             )}
           </Col>
@@ -175,10 +157,6 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
       </Card.Body>
       <Card.Footer>
         <Row className="justify-content-md-center">
-          {/* <Col md={10}>
-            <FontAwesomeIcon icon={faCommentDots} cursor="pointer" />
-            {commentState.length}
-          </Col> */}
           <Col md="auto">
             <LikeButton post={post} />
           </Col>
