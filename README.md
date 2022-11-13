@@ -12,13 +12,13 @@ The project consists in building an internal social network for employees. The a
 
 ## Install
 
-```
+```sh
 yarn install
 ```
 
 ## Start
 
-```
+```sh
 yarn start
 ```
 
@@ -27,7 +27,6 @@ yarn start
 ```sh
 yarn format
 yarn lint
-
 ```
 
 ## Tech stack
