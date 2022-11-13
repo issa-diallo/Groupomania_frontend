@@ -12,6 +12,7 @@ import { ProfileContext } from '../context/profilContext'
 import { TokenContext } from '../context/tokenContext'
 import { updateUser } from '../services/api'
 import { Profile } from '../types'
+import { DATE_FORMAT } from '../utils/constants'
 
 interface ProfileProps {
   profile: Profile
@@ -79,8 +80,7 @@ const ProfileForm: FunctionComponent<ProfileProps> = ({ profile }) => {
         value={profileState.bio || ''}
       />
       <Form.Text id="passwordHelpBlock" muted>
-        Membre depuis le :{' '}
-        {dayjs(profileState.createdAt).format('DD MMM YYYY à HH:mm')}
+        Membre depuis le : {dayjs(profileState.createdAt).format(DATE_FORMAT)}
       </Form.Text>
       <br />
       <Button

@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { Comment, Post, Profile } from '../types'
+import { Post, Profile } from '../types'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import { ProfileContext } from '../context/profilContext'
@@ -14,15 +14,12 @@ import { Badge, Button, Form, Image, Row } from 'react-bootstrap'
 import LikeButton from './LikeButton'
 import assert from 'assert'
 import { TokenContext } from '../context/tokenContext'
-import {
-  getComments,
-  getUserToCreatePost,
-  updatePost as update,
-} from '../services/api'
+import { getProfileById, updatePost as update } from '../services/api'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import DeleteButtonPost from './DeleteButtonPost'
 import { toast } from 'react-toastify'
+import { DATE_FORMAT } from '../utils/constants'
 
 interface cardPostProps {
   post: Post
@@ -55,11 +52,10 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
     setIsUpdaded(false)
   }
 
-  // Foreach post get user
   const fetchUser = async (): Promise<void> => {
     assert(token)
     try {
-      const user = await getUserToCreatePost(token, post.user_id)
+      const user = await getProfileById(token, post.user_id)
       setUserState(user)
     } catch (error) {
       console.error(error)
@@ -100,9 +96,9 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
           <Col xs={6} md={4}>
             <Badge bg="info">
               {post.createdAt === post.updatedAt &&
-                dayjs(post.createdAt).format('DD MMM YYYY à HH:mm')}
+                dayjs(post.createdAt).format(DATE_FORMAT)}
               {post.createdAt !== post.updatedAt &&
-                dayjs(post.updatedAt).format('DD MMM YYYY à HH:mm')}
+                dayjs(post.updatedAt).format(DATE_FORMAT)}
             </Badge>
           </Col>
         </Row>

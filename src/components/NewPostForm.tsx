@@ -11,6 +11,7 @@ import { TokenContext } from '../context/tokenContext'
 import { createPost } from '../services/api'
 import { toast } from 'react-toastify'
 import dayjs from 'dayjs'
+import { DATE_FORMAT } from '../utils/constants'
 
 interface propsNew {
   onCreate: () => void
@@ -83,7 +84,7 @@ const NewPostForm: FunctionComponent<propsNew> = ({ onCreate }) => {
               </Badge>
             </Col>
             <Col xs={6} md={4}>
-              <Badge bg="info">{dayjs().format('DD MMM YYYY à HH:mm')}</Badge>
+              <Badge bg="info">{dayjs().format(DATE_FORMAT)}</Badge>
             </Col>
           </Row>
         </Card.Header>

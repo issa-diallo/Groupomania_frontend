@@ -46,11 +46,8 @@ const getProfile = async (token: string): Promise<Profile> => {
   return response.data
 }
 
-const getUserToCreatePost = async (
-  token: string,
-  postUserId: number
-): Promise<Profile> => {
-  const url = BACKEND_URL + `/api/v1/users/${postUserId}`
+const getProfileById = async (token: string, id: number): Promise<Profile> => {
+  const url = BACKEND_URL + `/api/v1/users/${id}`
   const headers = { Authorization: `Token ${token}` }
   const response = await axios.get<Profile>(url, { headers })
   return response.data
@@ -77,16 +74,6 @@ const getPosts = async (token: string): Promise<Post[]> => {
   const url = BACKEND_URL + '/api/v1/post'
   const headers = { Authorization: `Token ${token}` }
   const response = await axios.get<Post[]>(url, { headers })
-  return response.data
-}
-
-const getComments = async (
-  token: string,
-  postId: number
-): Promise<Comment[]> => {
-  const url = BACKEND_URL + `/api/v1/post/${postId}/comments`
-  const headers = { Authorization: `Token ${token}` }
-  const response = await axios.get<Comment[]>(url, { headers })
   return response.data
 }
 
@@ -173,8 +160,7 @@ export {
   getProfile,
   uploadProfile,
   getPosts,
-  getComments,
-  getUserToCreatePost,
+  getProfileById,
   getLikes,
   likePost,
   likeDelete,

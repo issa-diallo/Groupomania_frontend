@@ -13,12 +13,13 @@ import { Post } from '../types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons'
+import { toast } from 'react-toastify'
 
-interface likePostProps {
+interface LikePostProps {
   post: Post
 }
 
-const LikeButton: FunctionComponent<likePostProps> = ({ post }) => {
+const LikeButton: FunctionComponent<LikePostProps> = ({ post }) => {
   const [liked, setLiked] = useState(false)
   const [likers, setLikers] = useState<number>()
   const { profile } = useContext(ProfileContext)
@@ -27,14 +28,12 @@ const LikeButton: FunctionComponent<likePostProps> = ({ post }) => {
   const fetchLike = async (): Promise<void> => {
     assert(token)
     try {
-      const data = await getLikes(token, post.id)
-      setLikers(data.count)
-      data.likes.forEach((like) => {
-        if (like.user_id === profile.id) {
-          setLiked(true)
-        }
-      })
+      const { count, likes } = await getLikes(token, post.id)
+      setLikers(count)
+      const hasLiked = likes.map((like) => like.user_id).includes(profile.id)
+      setLiked(hasLiked)
     } catch (error) {
+      toast.error('Impossible de charger la liste des likes !')
       console.error(error)
     }
   }

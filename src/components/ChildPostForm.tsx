@@ -3,6 +3,7 @@ import React, { FunctionComponent } from 'react'
 import { Badge, Col, Image, Row } from 'react-bootstrap'
 import Card from 'react-bootstrap/Card'
 import { Profile } from '../types'
+import { DATE_FORMAT } from '../utils/constants'
 
 interface childPostProps {
   profile: Profile
@@ -42,7 +43,7 @@ const ChildPostForm: FunctionComponent<childPostProps> = ({
             </Badge>
           </Col>
           <Col xs={6} md={4}>
-            <Badge bg="info">{dayjs().format('DD MMM YYYY à HH:mm')}</Badge>
+            <Badge bg="info">{dayjs().format(DATE_FORMAT)}</Badge>
           </Col>
         </Row>
       </Card.Header>
