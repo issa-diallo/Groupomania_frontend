@@ -36,4 +36,4 @@ const ProfileContextProvider: FunctionComponent<Props> = ({ children }) => {
   )
 }
 
-export { ProfileContext, ProfileContextProvider }
+export { ProfileContext, ProfileContextProvider, defaultProfile }

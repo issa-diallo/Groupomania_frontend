@@ -4,6 +4,7 @@ import { Badge, Col, Image, Row } from 'react-bootstrap'
 import Card from 'react-bootstrap/Card'
 import { Profile } from '../types'
 import { DATE_FORMAT } from '../utils/constants'
+import { pictureOrDefault } from '../utils/helper'
 
 interface childPostProps {
   profile: Profile
@@ -21,23 +22,13 @@ const ChildPostForm: FunctionComponent<childPostProps> = ({
       <Card.Header>
         <Row className="justify-content-center align-items-center">
           <Col xs={12} md={8}>
-            {profile?.picture ? (
-              <Image
-                src={profile?.picture}
-                rounded
-                height={40}
-                width={40}
-                className="mx-3"
-              />
-            ) : (
-              <Image
-                src={process.env.PUBLIC_URL + 'userDefault.png'}
-                rounded
-                height={30}
-                width={30}
-                className="mx-3"
-              />
-            )}
+            <Image
+              src={pictureOrDefault(profile.picture)}
+              rounded
+              height={40}
+              width={40}
+              className="mx-3"
+            />
             <Badge bg="secondary" text="dark">
               @{profile?.pseudo}
             </Badge>

@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { Button, Col, Form, Row } from 'react-bootstrap'
 import Image from 'react-bootstrap/Image'
 import { Profile } from '../types'
+import { pictureOrDefault } from '../utils/helper'
 
 interface UploadImageProps {
   profile: Profile
@@ -19,23 +20,13 @@ const UploadImageProfile: FunctionComponent<UploadImageProps> = ({
       <br />
       <Row className="justify-content-md-center">
         <Col md="auto">
-          {profile.picture ? (
-            <Image
-              src={profile.picture}
-              roundedCircle
-              height={190}
-              width={190}
-              className="my-3"
-            />
-          ) : (
-            <Image
-              src={process.env.PUBLIC_URL + 'userDefault.png'}
-              roundedCircle
-              height={190}
-              width={190}
-              className="my-3"
-            />
-          )}
+          <Image
+            src={pictureOrDefault(profile.picture)}
+            roundedCircle
+            height={190}
+            width={190}
+            className="my-3"
+          />
         </Col>
       </Row>
       <Form.Control

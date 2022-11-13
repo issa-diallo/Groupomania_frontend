@@ -12,6 +12,7 @@ import { createPost } from '../services/api'
 import { toast } from 'react-toastify'
 import dayjs from 'dayjs'
 import { DATE_FORMAT } from '../utils/constants'
+import { pictureOrDefault } from '../utils/helper'
 
 interface propsNew {
   onCreate: () => void
@@ -62,23 +63,13 @@ const NewPostForm: FunctionComponent<propsNew> = ({ onCreate }) => {
         <Card.Header>
           <Row className="justify-content-center align-items-center">
             <Col xs={12} md={8}>
-              {profile.picture ? (
-                <Image
-                  src={profile.picture}
-                  roundedCircle
-                  height={50}
-                  width={50}
-                  className="m-3"
-                />
-              ) : (
-                <Image
-                  src={process.env.PUBLIC_URL + 'userDefault.png'}
-                  rounded
-                  height={50}
-                  width={50}
-                  className="mx-3"
-                />
-              )}
+              <Image
+                src={pictureOrDefault(profile.picture)}
+                rounded
+                height={50}
+                width={50}
+                className="m-3"
+              />
               <Badge bg="secondary" text="dark">
                 @{profile?.pseudo}
               </Badge>

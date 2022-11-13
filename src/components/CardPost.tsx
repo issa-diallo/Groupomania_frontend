@@ -8,7 +8,7 @@ import React, {
 import { Post, Profile } from '../types'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
-import { ProfileContext } from '../context/profilContext'
+import { defaultProfile, ProfileContext } from '../context/profilContext'
 import dayjs from 'dayjs'
 import { Badge, Button, Form, Image, Row } from 'react-bootstrap'
 import LikeButton from './LikeButton'
@@ -20,6 +20,7 @@ import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import DeleteButtonPost from './DeleteButtonPost'
 import { toast } from 'react-toastify'
 import { DATE_FORMAT } from '../utils/constants'
+import { pictureOrDefault } from '../utils/helper'
 
 interface cardPostProps {
   post: Post
@@ -29,7 +30,7 @@ interface cardPostProps {
 const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
   const { profile } = useContext(ProfileContext)
   const { token } = useContext(TokenContext)
-  const [userState, setUserState] = useState<Profile>()
+  const [userState, setUserState] = useState<Profile>(defaultProfile)
   const [isUpdated, setIsUpdaded] = useState(false)
   const [textUpdate, setTextUpdate] = useState<string>('')
 
@@ -72,25 +73,15 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
       <Card.Header>
         <Row className="justify-content-center align-items-center">
           <Col xs={12} md={8}>
-            {userState?.picture ? (
-              <Image
-                src={userState?.picture}
-                rounded
-                height={50}
-                width={50}
-                className="m-3"
-              />
-            ) : (
-              <Image
-                src={process.env.PUBLIC_URL + 'userDefault.png'}
-                rounded
-                height={50}
-                width={50}
-                className="mx-3"
-              />
-            )}
+            <Image
+              src={pictureOrDefault(userState.picture)}
+              rounded
+              height={50}
+              width={50}
+              className="m-3"
+            />
             <Badge bg="secondary" text="dark">
-              @{userState?.pseudo}
+              @{userState.pseudo}
             </Badge>
           </Col>
           <Col xs={6} md={4}>
