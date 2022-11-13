@@ -50,7 +50,7 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
       assert(token)
       await update(token, post, textUpdate)
       onUpdate()
-      toast.info('Votre post a bien été modifié !')
+      toast.success('Votre post a bien été modifié !')
     }
     setIsUpdaded(false)
   }
@@ -74,36 +74,38 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
   return (
     <Card className="mb-2" border="danger">
       <Card.Header>
-        <Col md={4}>
-          {userState?.picture ? (
-            <Image
-              src={userState?.picture}
-              rounded
-              height={30}
-              width={30}
-              className="mx-3"
-            />
-          ) : (
-            <Image
-              src={process.env.PUBLIC_URL + 'userDefault.png'}
-              rounded
-              height={30}
-              width={30}
-              className="mx-3"
-            />
-          )}
-          <Badge bg="secondary" text="dark">
-            @{userState?.pseudo}
-          </Badge>
-        </Col>
-        <Col md={{ offset: 8 }}>
-          <Badge bg="info">
-            {post.createdAt === post.updatedAt &&
-              dayjs(post.createdAt).format('DD MMM YYYY à HH:mm')}
-            {post.createdAt !== post.updatedAt &&
-              dayjs(post.updatedAt).format('DD MMM YYYY à HH:mm')}
-          </Badge>
-        </Col>
+        <Row className="justify-content-center align-items-center">
+          <Col xs={12} md={8}>
+            {userState?.picture ? (
+              <Image
+                src={userState?.picture}
+                rounded
+                height={50}
+                width={50}
+                className="m-3"
+              />
+            ) : (
+              <Image
+                src={process.env.PUBLIC_URL + 'userDefault.png'}
+                rounded
+                height={50}
+                width={50}
+                className="mx-3"
+              />
+            )}
+            <Badge bg="secondary" text="dark">
+              @{userState?.pseudo}
+            </Badge>
+          </Col>
+          <Col xs={6} md={4}>
+            <Badge bg="info">
+              {post.createdAt === post.updatedAt &&
+                dayjs(post.createdAt).format('DD MMM YYYY à HH:mm')}
+              {post.createdAt !== post.updatedAt &&
+                dayjs(post.updatedAt).format('DD MMM YYYY à HH:mm')}
+            </Badge>
+          </Col>
+        </Row>
       </Card.Header>
       <Card.Body>
         {isUpdated === false && <Card.Text>{textUpdate}</Card.Text>}
@@ -128,34 +130,29 @@ const CardPost: FunctionComponent<cardPostProps> = ({ post, onUpdate }) => {
           </Form>
         )}
         <Card.Text>
-          <Col>
-            {post.picture && (
-              <Image
-                src={post.picture}
-                alt="card-message"
-                className="mx-auto d-block"
-                height="560"
-                width="80%"
-              />
-            )}
-          </Col>
+          {post.picture && (
+            <Image
+              src={post.picture}
+              alt="card-message"
+              className="mx-auto d-block"
+              height="560"
+              width="80%"
+            />
+          )}
         </Card.Text>
-        {profile.id === post.user_id && (
-          <Card.Text>
-            <Row className="justify-content-md-center">
-              <Col md={4}>
-                <FontAwesomeIcon
-                  icon={faPenToSquare}
-                  cursor="pointer"
-                  onClick={() => setIsUpdaded(!isUpdated)}
-                />
-              </Col>
-              <Col md="auto">
-                <DeleteButtonPost post={post} onDelete={onUpdate} />
-              </Col>
-            </Row>
-          </Card.Text>
-        )}
+        <Card.Text>
+          {profile.id === post.user_id && (
+            <span className="icon-card">
+              <FontAwesomeIcon
+                icon={faPenToSquare}
+                cursor="pointer"
+                onClick={() => setIsUpdaded(!isUpdated)}
+                className="icon"
+              />
+              <DeleteButtonPost post={post} onDelete={onUpdate} />
+            </span>
+          )}
+        </Card.Text>
       </Card.Body>
       <Card.Footer>
         <Row className="justify-content-md-center">

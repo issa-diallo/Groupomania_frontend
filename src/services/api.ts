@@ -104,12 +104,11 @@ const getLikes = async (
 
 const likePost = async (
   token: string,
-  postId: number,
-  profileId: number
+  postId: number
 ): Promise<postLikeResponse> => {
   const url = BACKEND_URL + `/api/v1/post/like/${postId}`
-  const data = { user_id: profileId }
-  const headers = { Authorization: `Token ${token}` }
+  const headers = { Authorization: `Bearer ${token}` }
+  const data = {}
   const response = await axios.post<postLikeResponse>(url, data, {
     headers,
   })
@@ -118,12 +117,11 @@ const likePost = async (
 
 const likeDelete = async (
   token: string,
-  postId: number,
-  profileId: number
+  postId: number
 ): Promise<postLikeResponse> => {
   const url = BACKEND_URL + `/api/v1/post/unlike/${postId}`
-  const data = { user_id: profileId }
-  const headers = { Authorization: `Token ${token}` }
+  const headers = { Authorization: `Bearer ${token}` }
+  const data = {}
   const response = await axios.post<postLikeResponse>(url, data, {
     headers,
   })
@@ -137,7 +135,7 @@ const updatePost = async (
 ): Promise<Post> => {
   const url = BACKEND_URL + `/api/v1/post/${post.id}`
   const headers = { Authorization: `Token ${token}` }
-  const data = { user_id: post.user_id, message: message }
+  const data = { message: message }
   const response = await axios.put<Post>(url, data, { headers })
   return response.data
 }
@@ -161,7 +159,6 @@ const createPost = async (
     'Content-Type': 'multipart/form-data',
   }
   const data = {
-    user_id: post.user_id,
     message: post.message,
     file,
   }

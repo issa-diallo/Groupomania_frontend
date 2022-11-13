@@ -34,9 +34,11 @@ const LoginForm = () => {
       // interact with the backend axios post
       const response = await login(email, password)
       const { token } = response
+      // Adds the token to storage & TokenContext
       setTokenLocalStorage(token)
       setToken(token)
       toast.success('Vous êtes désormais connecté 😀')
+      // Redirect page Home
       navigate('/')
     } catch (err: unknown) {
       console.error(err)

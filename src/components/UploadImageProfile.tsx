@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Button, Form } from 'react-bootstrap'
+import { Button, Col, Form, Row } from 'react-bootstrap'
 import Image from 'react-bootstrap/Image'
 import { Profile } from '../types'
 
@@ -17,23 +17,27 @@ const UploadImageProfile: FunctionComponent<UploadImageProps> = ({
   return (
     <Form onSubmit={onFormSubmit}>
       <br />
-      {profile.picture ? (
-        <Image
-          src={profile.picture}
-          roundedCircle
-          height={100}
-          width={100}
-          className="my-3"
-        />
-      ) : (
-        <Image
-          src={process.env.PUBLIC_URL + 'userDefault.png'}
-          roundedCircle
-          height={100}
-          width={100}
-          className="my-3"
-        />
-      )}
+      <Row className="justify-content-md-center">
+        <Col md="auto">
+          {profile.picture ? (
+            <Image
+              src={profile.picture}
+              roundedCircle
+              height={190}
+              width={190}
+              className="my-3"
+            />
+          ) : (
+            <Image
+              src={process.env.PUBLIC_URL + 'userDefault.png'}
+              roundedCircle
+              height={190}
+              width={190}
+              className="my-3"
+            />
+          )}
+        </Col>
+      </Row>
       <Form.Control
         type="file"
         id="file"

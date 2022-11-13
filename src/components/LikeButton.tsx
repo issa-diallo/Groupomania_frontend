@@ -46,14 +46,14 @@ const LikeButton: FunctionComponent<likePostProps> = ({ post }) => {
 
   const like = async () => {
     assert(token)
-    const data = await likePost(token, post.id, profile.id)
+    const data = await likePost(token, post.id)
     setLiked(true)
     setLikers(data.count)
   }
 
   const unLike = async () => {
     assert(token)
-    const data = await likeDelete(token, post.id, profile.id)
+    const data = await likeDelete(token, post.id)
     setLiked(false)
     setLikers(data.count)
   }

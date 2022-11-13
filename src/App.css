@@ -6,3 +6,8 @@ main {
   margin-top: 3em;
   height: 75vh;
 }
+
+.icon-card {
+  display: flex;
+  justify-content: space-around;
+}

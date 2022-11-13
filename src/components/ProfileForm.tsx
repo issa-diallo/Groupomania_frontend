@@ -60,6 +60,7 @@ const ProfileForm: FunctionComponent<ProfileProps> = ({ profile }) => {
         className="me-2"
         aria-label="Email"
         autoComplete="off"
+        disabled
         onChange={(e) =>
           setProfileState({ ...profileState, email: e.target.value })
         }

@@ -4,6 +4,8 @@ The project consists in building an internal social network for employees. The a
 
 **Backend** is available via: https://github.com/issa-diallo/Groupomania_Backend.
 
+> **Note:** Go to the backend repository to create an admin user
+
 ### System dependencies
 
 - to install [yarn](https://yarnpkg.com/)

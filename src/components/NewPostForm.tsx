@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext, useState } from 'react'
 import Image from 'react-bootstrap/Image'
 import { ProfileContext } from '../context/profilContext'
 import Nav from 'react-bootstrap/Nav'
-import { Button, Card, Form, Col, Row } from 'react-bootstrap'
+import { Button, Card, Form, Col, Row, Badge } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-regular-svg-icons'
 import ChildPostForm from './ChildPostForm'
@@ -10,6 +10,7 @@ import assert from 'assert'
 import { TokenContext } from '../context/tokenContext'
 import { createPost } from '../services/api'
 import { toast } from 'react-toastify'
+import dayjs from 'dayjs'
 
 interface propsNew {
   onCreate: () => void
@@ -58,24 +59,33 @@ const NewPostForm: FunctionComponent<propsNew> = ({ onCreate }) => {
     <React.Fragment>
       <Card className="mb-4">
         <Card.Header>
-          <Nav.Link href="/profile">
-            {profile.picture ? (
-              <Image
-                src={profile.picture}
-                roundedCircle
-                height={40}
-                width={40}
-                className="my-3"
-              />
-            ) : (
-              <Image
-                src={process.env.PUBLIC_URL + 'userDefault.png'}
-                roundedCircle
-                height={100}
-                width={100}
-              />
-            )}
-          </Nav.Link>
+          <Row className="justify-content-center align-items-center">
+            <Col xs={12} md={8}>
+              {profile.picture ? (
+                <Image
+                  src={profile.picture}
+                  roundedCircle
+                  height={50}
+                  width={50}
+                  className="m-3"
+                />
+              ) : (
+                <Image
+                  src={process.env.PUBLIC_URL + 'userDefault.png'}
+                  rounded
+                  height={50}
+                  width={50}
+                  className="mx-3"
+                />
+              )}
+              <Badge bg="secondary" text="dark">
+                @{profile?.pseudo}
+              </Badge>
+            </Col>
+            <Col xs={6} md={4}>
+              <Badge bg="info">{dayjs().format('DD MMM YYYY à HH:mm')}</Badge>
+            </Col>
+          </Row>
         </Card.Header>
         <Card.Body>
           <Form>
