@@ -89,7 +89,7 @@ const ProfileForm: FunctionComponent<ProfileProps> = ({ profile }) => {
         type="submit"
         onClick={onUpdate}
       >
-        Modifie
+        Modifier
       </Button>
     </Form>
   )

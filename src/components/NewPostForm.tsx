@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useContext, useState } from 'react'
 import Image from 'react-bootstrap/Image'
 import { ProfileContext } from '../context/profilContext'
-import Nav from 'react-bootstrap/Nav'
 import { Button, Card, Form, Col, Row, Badge } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-regular-svg-icons'
@@ -14,11 +13,11 @@ import dayjs from 'dayjs'
 import { DATE_FORMAT } from '../utils/constants'
 import { pictureOrDefault } from '../utils/helper'
 
-interface propsNew {
+interface NewPostFormProps {
   onCreate: () => void
 }
 
-const NewPostForm: FunctionComponent<propsNew> = ({ onCreate }) => {
+const NewPostForm: FunctionComponent<NewPostFormProps> = ({ onCreate }) => {
   const { profile } = useContext(ProfileContext)
   const { token } = useContext(TokenContext)
 
@@ -28,19 +27,15 @@ const NewPostForm: FunctionComponent<propsNew> = ({ onCreate }) => {
 
   const handlePost = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (message || postPicture) {
-      assert(token)
-      const data = {
-        user_id: profile.id,
-        message: message,
-      }
-      file ? await createPost(token, data, file) : await createPost(token, data)
-      cancelPost()
-      onCreate()
-      toast.success('Votre post a bien été ajouté !')
-    } else {
-      toast.error('Une erreur est survenue !')
+    assert(token)
+    const data = {
+      user_id: profile.id,
+      message: message,
     }
+    await createPost(token, data, file)
+    cancelPost()
+    onCreate()
+    toast.success('Votre post a bien été ajouté !')
   }
 
   const handlePicture = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -137,6 +132,7 @@ const NewPostForm: FunctionComponent<propsNew> = ({ onCreate }) => {
                 variant="outline-success"
                 type="submit"
                 onClick={handlePost}
+                disabled={!(message || postPicture)}
               >
                 Envoyer
               </Button>

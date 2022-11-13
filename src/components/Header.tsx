@@ -10,10 +10,6 @@ import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 const Header = () => {
   const logout = useLogout()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onLogoutClick = (e: React.MouseEvent<HTMLElement>): void => {
-    logout()
-  }
 
   return (
     <Navbar bg="primary" variant="dark" expand="lg">
@@ -35,7 +31,7 @@ const Header = () => {
                 <FontAwesomeIcon icon={faUser} />
                 Profil
               </Nav.Link>
-              <Nav.Link onClick={onLogoutClick}>
+              <Nav.Link onClick={logout}>
                 <FontAwesomeIcon icon={faRightFromBracket} />
                 Deconnexion
               </Nav.Link>

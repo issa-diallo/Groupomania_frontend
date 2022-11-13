@@ -7,6 +7,7 @@ import { AxiosError } from 'axios'
 import Alert from 'react-bootstrap/Alert'
 import { ErrorResponse } from '../types'
 import { toast } from 'react-toastify'
+import { isAxiosError } from '../utils/helper'
 
 const RegisterForm = () => {
   const [email, setEmail] = useState('')
@@ -24,10 +25,6 @@ const RegisterForm = () => {
 
   const onPseudoChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
     setPseudo(e.target.value)
-
-  const isAxiosError = (error: unknown): error is AxiosError => {
-    return Boolean(error && (error as AxiosError).isAxiosError)
-  }
 
   const onLogin = async (): Promise<void> => {
     try {
